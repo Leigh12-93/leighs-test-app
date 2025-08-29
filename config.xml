@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="au.leigh.testapp" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Leigh's Test App</name>
+  <description>Offline GPS tracker app that shows your location as a dot on a map.</description>
+  <author email="admin@adelaidewheeliebins.com.au" href="https://adelaidewheeliebins.com.au">Adelaide Wheelie Bins</author>
+  <content src="index.html" />
+  <preference name="SplashScreenDelay" value="0"/>
+  <preference name="LoadUrlTimeoutValue" value="7000" />
+  <platform name="android">
+    <preference name="android-minSdkVersion" value="24" />
+    <preference name="AndroidWindowFullscreen" value="true" />
+    <allow-intent href="market:*" />
+  </platform>
+  <access origin="*" />
+</widget>
