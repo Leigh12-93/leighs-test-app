@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+    <title>Leigh's Test App</title>
+    <style>
+      html,body{height:100%;margin:0;font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0b0d12;color:#e9eef5}
+      #mapContainer {position: relative; width: 100%; height: 100%; overflow: hidden;}
+      #map {width:100%;height:100%; display:block;}
+      #dot {position:absolute; width:16px; height:16px; background:#f44336; border-radius:50%; border:2px solid #fff; box-shadow:0 0 6px rgba(0,0,0,0.5);}
+      .status {position: absolute; top:10px; left:10px; background:rgba(0,0,0,0.6); padding:6px 10px; border-radius:6px; font-size:0.9rem; color:#fff;}
+    </style>
+  </head>
+  <body>
+    <div id="mapContainer">
+      <img id="map" src="map.png" alt="map"/>
+      <div id="dot" style="display:none;"></div>
+      <div class="status" id="status">Locating...</div>
+    </div>
+    <script>
+      function updateDot(latitude, longitude) {
+        const img = document.getElementById('map');
+        const dot = document.getElementById('dot');
+        const status = document.getElementById('status');
+        const width = img.clientWidth;
+        const height = img.clientHeight;
+        const x = ((longitude + 180) / 360) * width;
+        const y = ((90 - latitude) / 180) * height;
+        dot.style.left = (x - dot.offsetWidth / 2) + 'px';
+        dot.style.top = (y - dot.offsetHeight / 2) + 'px';
+        dot.style.display = 'block';
+        status.textContent = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`;
+      }
+      document.addEventListener('deviceready', () => {
+        const status = document.getElementById('status');
+        if (!navigator.geolocation) {
+          status.textContent = 'Geolocation not supported';
+          return;
+        }
+        const success = position => {
+          const { latitude, longitude } = position.coords;
+          updateDot(latitude, longitude);
+        };
+        const error = err => {
+          status.textContent = 'Error getting location: ' + err.message;
+        };
+        navigator.geolocation.watchPosition(success, error, { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 });
+      });
+    </script>
+  </body>
+</html>
